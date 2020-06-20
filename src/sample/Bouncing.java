@@ -2,36 +2,31 @@ package sample;
 
 import javafx.application.Platform;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
 
 public class Bouncing implements Runnable {
-    private final Node node;
+    private final Circle node;
+    private final Scene scene;
 
-    public Bouncing(Node node){
+    public Bouncing(Circle node){
         this.node = node;
+        this.scene = node.getParent().getScene();
     }
 
     @Override
     public void run() {
-        int count = 0;
-        while(count < 100){
-            //to wymusza zmianę współrzędnych w wątku UI - wątku obsługujacym okno
-            Platform.runLater(
-                    //klasa anonimowa!!!
-                    //definicja klasy bez nazwy implementującej interfejs Runnable
-                    //z jednoczesnym utworzeniem obiektu tej klasy
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            node.setLayoutX(node.getLayoutX() + 1);
-                        }
-                    }
-            );
-            //poniższa lambda jest odpowiednikiem klasy anonimowej powyżej
-            //ale zapis jest bardziej zwiezły
-            //bo wiele elementów możemy wywnioskować
-            //jest odpowiednikiem klasy anonimowej aly tylko gdy implementowany interfejs jest funkcyjny!!!
-            Platform.runLater(() -> node.setLayoutX(node.getLayoutX() + 1));
-            count++;
+        double delta = 1;
+        while(true){
+            if (node.getCenterX() > scene.getWidth() - node.getRadius()){
+                delta = -1;
+            }
+            if (node.getCenterX() < node.getRadius()) {
+                delta = 1;
+            }
+            final double dx = delta;
+            Platform.runLater(() -> node.setCenterX(node.getCenterX() + dx));
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
