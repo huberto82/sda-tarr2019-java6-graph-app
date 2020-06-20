@@ -26,7 +26,11 @@ public class Bouncing implements Runnable {
                         }
                     }
             );
-
+            //poniższa lambda jest odpowiednikiem klasy anonimowej powyżej
+            //ale zapis jest bardziej zwiezły
+            //bo wiele elementów możemy wywnioskować
+            //jest odpowiednikiem klasy anonimowej aly tylko gdy implementowany interfejs jest funkcyjny!!!
+            Platform.runLater(() -> node.setLayoutX(node.getLayoutX() + 1));
             count++;
             try {
                 Thread.sleep(10);
