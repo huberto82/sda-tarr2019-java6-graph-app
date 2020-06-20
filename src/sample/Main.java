@@ -42,6 +42,7 @@ public class Main extends Application {
 
         //Amimacja z użyciem wątku
         AnimationThread anim = new AnimationThread(rectangle);
+        //uruchamiamy obiekt klasy Thread tylko przez start
         anim.start();
         //Animacja z użyciem gotowych klas transition
         TranslateTransition move = new TranslateTransition(Duration.millis(1000), rectangle);
