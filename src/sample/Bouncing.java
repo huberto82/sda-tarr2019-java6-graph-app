@@ -17,16 +17,30 @@ public class Bouncing implements Runnable {
 
     @Override
     public void run() {
-        double delta = 1;
+        double deltaX = 2;
+        double deltaY = 2;
         while(true){
-            if (node.getCenterX() > scene.getWidth() - node.getRadius()){
-                delta = -1;
+            //=========================
+            if (node.getCenterX() > scene.getWidth() - node.getRadius() && deltaX > 0){
+                deltaX = -deltaX;
+            } else
+            if (node.getCenterX() < node.getRadius() && deltaX < 0) {
+                deltaX = -deltaX;
             }
-            if (node.getCenterX() < node.getRadius()) {
-                delta = 1;
+            if(node.getCenterY() > scene.getHeight() - node.getRadius() && deltaY > 0){
+                deltaY = -deltaY;
+            } else
+            if (node.getCenterY() < node.getRadius() && deltaY < 0){
+                deltaY = -deltaY;
             }
-            final double dx = delta;
-            Platform.runLater(() -> node.setCenterX(node.getCenterX() + dx));
+            final double dx = deltaX;
+            final double dy = deltaY;
+            Platform.runLater(() -> {
+                node.setCenterX(node.getCenterX() + dx);
+                node.setCenterY(node.getCenterY() + dy);
+            });
+            //============================
+
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
